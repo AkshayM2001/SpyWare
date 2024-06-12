@@ -21,4 +21,7 @@ from app import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('node/', views.proxy_to_node),
+    path('send_command/', views.send_command, name='send_command'),
+    path('fetch_commands/', views.fetch_commands, name='fetch_commands'),
+    path('command_form/', views.command_form, name='command_form'),
 ]

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send Command</title>
+</head>
+<body>
+    <h1>Send Command to Payload</h1>
+    <form action="/send_command/" method="post">
+        {% csrf_token %}
+        <label for="command">Command:</label>
+        <input type="text" id="command" name="command" required>
+        <button type="submit">Send Command</button>
+    </form>
+</body>
+</html>
