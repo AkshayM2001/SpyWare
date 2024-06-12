@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+<p> Home Page Working</p>
+<div id="data-container"></div>
+
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('http://your-server-ip:3000/api/data');
+                const data = await response.json();
+                const container = document.getElementById('data-container');
+                container.innerHTML = data.map(item => `<p>${item.dataField}</p>`).join('');
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        fetchData();
+    </script>
+
+{% endblock content %}
