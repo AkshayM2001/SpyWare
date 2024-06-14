@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Command and Control</title>
+    <script>
+        function sendCommand() {
+            const command = document.getElementById("command").value;
+            fetch('/fetch_commands/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({command: command}),
+            }).then(response => response.json())
+              .then(data => {
+                  console.log('Command sent:', data);
+              });
+        }
+
+        function getData() {
+            fetch('/receive_data/')
+            .then(response => response.json())
+            .then(data => {
+                const dataList = document.getElementById("data-list");
+                const newItem = document.createElement("li");
+                newItem.textContent = data;
+                dataList.appendChild(newItem);
+            });
+        }
+
+        setInterval(getData, 5000);  // Poll every 5 seconds
+    </script>
+</head>
+<body>
+    <h1>Command and Control</h1>
+    <input type="text" id="command" placeholder="Enter command">
+    <button onclick="sendCommand()">Send Command</button>
+    <ul id="data-list"></ul>
+</body>
+</html>
+    
