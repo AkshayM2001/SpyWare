@@ -14,7 +14,7 @@ def proxy_to_node(request):
     response = requests.get('http://127.0.0.1:3000/')
     return JsonResponse(response.json())
 
-commands = ['dump_sms']
+commands = ['list_app']
 
 def fetch_commands(request):
     global commands

